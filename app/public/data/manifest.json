@@ -1,0 +1,56 @@
+[
+  {
+    "slug": "a-1",
+    "id": "A-1",
+    "jurisdiction": "federal",
+    "title": "Access to Information Act",
+    "citation": "R.S.C., 1985, c. A-1",
+    "partCount": 7,
+    "sectionCount": 172
+  },
+  {
+    "slug": "h-6",
+    "id": "H-6",
+    "jurisdiction": "federal",
+    "title": "Canadian Human Rights Act",
+    "citation": "R.S.C., 1985, c. H-6",
+    "partCount": 6,
+    "sectionCount": 90
+  },
+  {
+    "slug": "c-46",
+    "id": "C-46",
+    "jurisdiction": "federal",
+    "title": "Criminal Code",
+    "citation": "R.S.C., 1985, c. C-46",
+    "partCount": 41,
+    "sectionCount": 1603
+  },
+  {
+    "slug": "e-4-5",
+    "id": "E-4.5",
+    "jurisdiction": "federal",
+    "title": "Emergencies Act",
+    "citation": "R.S.C., 1985, c. 22 (4th Supp.)",
+    "partCount": 9,
+    "sectionCount": 64
+  },
+  {
+    "slug": "on-90h08",
+    "id": "90h08",
+    "jurisdiction": "ontario",
+    "title": "Highway Traffic Act",
+    "citation": "R.S.O. 1990, c. H.8",
+    "partCount": 26,
+    "sectionCount": 395
+  },
+  {
+    "slug": "i-21",
+    "id": "I-21",
+    "jurisdiction": "federal",
+    "title": "Interpretation Act",
+    "citation": "R.S.C., 1985, c. I-21",
+    "partCount": 10,
+    "sectionCount": 50
+  }
+]

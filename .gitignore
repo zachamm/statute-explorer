@@ -1,0 +1,21 @@
+# dependencies
+node_modules/
+
+# build output
+app/dist/
+app/dist-ssr/
+
+# parser caches — regenerated automatically on next parse (source/) or are
+# a redundant local copy of app/public/data/ (output/); neither is needed
+# to run the app from a fresh clone
+parser/source/
+parser/output/
+
+# editor / OS
+.DS_Store
+.vscode/
+.idea/
+*.local
+
+# logs
+npm-debug.log*
