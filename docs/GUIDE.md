@@ -9,9 +9,9 @@ place.
 
 - **Search**: click "Search this statute" above the table of contents (or
   press Ctrl+K / Cmd+K) to search by heading, section number, or a word
-  anywhere in the text. Results are ranked so a section whose heading
-  matches beats one that just happens to mention the word once. Arrow keys
-  to move, Enter to jump, Esc to close.
+  anywhere in the text. It ranks results so a section whose heading matches
+  beats one that just happens to mention the word once. Arrow keys to move,
+  Enter to jump, Esc to close.
 - **Left sidebar**: the table of contents. Click any section to read it.
   Click a Part heading to collapse or expand that section of the list.
 - **Middle panel**: the section you're reading. Two kinds of text are
@@ -62,10 +62,11 @@ the link from there.
 
 ### Where imported statutes go
 
-A statute you add through this tab is saved in your own browser, not
-uploaded anywhere shared. Reload the page and it's still there; open the
-app in a different browser and it won't be. If you want it available to
-everyone, that's a different (CLI-based) process; see the project README.
+A statute you add through this tab stays in your own browser. It doesn't
+get uploaded anywhere shared. Reload the page and it's still there; open
+the app in a different browser and it won't be. If you want it available
+to everyone, that's a different (CLI-based) process, see the project
+README.
 
 ## Where the data comes from
 

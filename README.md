@@ -175,9 +175,9 @@ without pushing.
 
 ## Known limitations
 
-- **Schedules are skipped** in both adapters (federal `<Schedule>` elements,
-  Ontario `class="schedule"`/`class="headingx"` content). Out of scope for
-  v1, matching the original federal-only design.
+- **Both adapters skip schedules** (federal `<Schedule>` elements, Ontario
+  `class="schedule"`/`class="headingx"` content). Out of scope for v1,
+  matching the original federal-only design.
 - **Ontario's schedule-boundary detection is a heuristic**, not a structural
   guarantee the way federal's `<Schedule>` tag is. It was verified against
   one real schedule (a short list of related Act names) and correctly
