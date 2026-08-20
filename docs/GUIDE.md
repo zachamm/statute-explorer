@@ -7,6 +7,11 @@ place.
 
 ## Reading a statute
 
+- **Search**: click "Search this statute" above the table of contents (or
+  press Ctrl+K / Cmd+K) to search by heading, section number, or a word
+  anywhere in the text. Results are ranked so a section whose heading
+  matches beats one that just happens to mention the word once. Arrow keys
+  to move, Enter to jump, Esc to close.
 - **Left sidebar**: the table of contents. Click any section to read it.
   Click a Part heading to collapse or expand that section of the list.
 - **Middle panel**: the section you're reading. Two kinds of text are

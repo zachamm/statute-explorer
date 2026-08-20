@@ -5,6 +5,7 @@ import CrossRefGraph from "./components/CrossRefGraph";
 import DefinitionTooltip from "./components/DefinitionTooltip";
 import DocsView from "./components/DocsView";
 import ImportView from "./components/ImportView";
+import SearchPalette from "./components/SearchPalette";
 import {
   fetchManifest,
   fetchStatute,
@@ -31,6 +32,7 @@ function App() {
   const [selectedSectionId, setSelectedSectionId] = useState(null);
   const [hover, setHover] = useState({ termId: null, position: { x: 0, y: 0 } });
   const [mobilePanel, setMobilePanel] = useState(null); // null | "tree" | "graph" — narrow-viewport drawers
+  const [searchOpen, setSearchOpen] = useState(false);
 
   useEffect(() => {
     fetchManifest()
@@ -48,6 +50,7 @@ function App() {
     setStatute(null);
     setStatuteError(null);
     setMobilePanel(null);
+    setSearchOpen(false);
     fetchStatute(slug)
       .then((doc) => {
         setStatute(doc);
@@ -56,6 +59,20 @@ function App() {
       })
       .catch((err) => setStatuteError(err.message));
   }, [slug]);
+
+  // Cmd/Ctrl+K opens search from anywhere while reading — the visible
+  // button in the tree pane covers people who'd never think to try it.
+  useEffect(() => {
+    if (view !== "reader") return;
+    const handler = (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
+        e.preventDefault();
+        setSearchOpen(true);
+      }
+    };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, [view]);
 
   const handleJump = useCallback((sectionId) => {
     setSelectedSectionId(sectionId);
@@ -182,6 +199,9 @@ function App() {
 
       {view === "reader" && readerReady && (
         <div className="mobile-toolbar">
+          <button type="button" onClick={() => setSearchOpen(true)}>
+            ⌕ Search
+          </button>
           <button type="button" onClick={() => setMobilePanel("tree")}>
             ☰ Contents
           </button>
@@ -208,6 +228,10 @@ function App() {
               onClick={() => setMobilePanel(null)}
             >
               Close ✕
+            </button>
+            <button type="button" className="tree-search-trigger" onClick={() => setSearchOpen(true)}>
+              <span aria-hidden="true">⌕</span> Search this statute
+              <kbd>{navigator.platform.includes("Mac") ? "⌘K" : "Ctrl K"}</kbd>
             </button>
             <SectionTree
               key={statute.id}
@@ -314,6 +338,14 @@ function App() {
           statute={statute}
           termId={hover.termId}
           position={hover.position}
+        />
+      )}
+
+      {view === "reader" && readerReady && searchOpen && (
+        <SearchPalette
+          statute={statute}
+          onJumpSection={handleJump}
+          onClose={() => setSearchOpen(false)}
         />
       )}
     </div>
