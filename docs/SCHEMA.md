@@ -1,11 +1,11 @@
 # Data model: parsed statute JSON
 
-Produced by `parser/parse.js` (federal) or `parser/parse-ontario.js`
-(Ontario) from each jurisdiction's official source. See the top-level
-[README](../README.md) for what format each expects and how to run them. No
-runtime parsing happens in the browser: all of this is precomputed, and
-both adapters emit the exact same shape below, which is the only thing the
-app (`app/src/`) actually knows about.
+`parser/parse.js` (federal) or `parser/parse-ontario.js` (Ontario)
+produces this JSON from each jurisdiction's official source. See the
+top-level [README](../README.md) for what format each expects and how to
+run them. No runtime parsing happens in the browser: all of this is
+precomputed, and both adapters emit the exact same shape below, which is
+the only thing the app (`app/src/`) actually knows about.
 
 Every statute is written to `app/public/data/<slug>.json` (e.g. `e-4-5.json`,
 `on-90h08.json`), and `app/public/data/manifest.json` is a registry of every
