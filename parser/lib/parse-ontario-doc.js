@@ -397,6 +397,43 @@ export function parseOntarioJson(rawJsonText) {
     delete section.historicalNotes;
   }
 
+  // Not every Ontario Act drafts a "short title" as its own numbered
+  // section the way federal Acts always do (Highway Traffic Act doesn't —
+  // its actual section 1 is definitions). Rather than let the reading view
+  // just start mid-Act with no title, prepend a small citation entry from
+  // the Act's own metadata. It's deliberately NOT labelled "Short title" —
+  // that's specific legal terminology for a formally drafted provision,
+  // and this isn't one; calling it that would make something I generated
+  // look like it's part of the enacted text. Only added if the source
+  // doesn't already have a real numbered short-title section.
+  const hasShortTitleSection = Object.values(sections).some((s) =>
+    /short title/i.test(s.marginalNote ?? ""),
+  );
+  if (!hasShortTitleSection) {
+    const titlePart = {
+      id: "about-this-act",
+      label: null,
+      title: "About This Act",
+      divisions: [{ id: "about-this-act-main", title: null, sectionIds: ["title"] }],
+    };
+    parts.unshift(titlePart);
+    sections.title = {
+      id: "title",
+      number: "",
+      marginalNote: "About this Act",
+      partId: "about-this-act",
+      divisionId: "about-this-act-main",
+      body: [
+        { type: "text", runs: [{ type: "text", value: `${shortTitle}, ${citation}.` }] },
+      ],
+      definesTerms: [],
+      outgoingRefs: [],
+      historicalNote:
+        "Not a section of the Act — the Ontario source doesn't number a short title the way federal statutes do. Shown here from the Act's own citation metadata.",
+    };
+    crossRefIndex.title = { outgoing: [], incoming: [] };
+  }
+
   const statuteDocument = {
     id: alias,
     jurisdiction: "ontario",

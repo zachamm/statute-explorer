@@ -5,6 +5,10 @@ import {
 } from "../lib/statute";
 import SectionBody from "./SectionBody";
 
+function pagerLabel(section) {
+  return section.number ? `s.${section.number}` : section.marginalNote;
+}
+
 export default function ReadingView({
   statute,
   sectionId,
@@ -33,10 +37,14 @@ export default function ReadingView({
       </div>
 
       <header className="section-header">
-        <span className="section-number-ghost" aria-hidden="true">
-          {section.number}
-        </span>
-        <span className="section-number-big">{section.number}</span>
+        {section.number && (
+          <>
+            <span className="section-number-ghost" aria-hidden="true">
+              {section.number}
+            </span>
+            <span className="section-number-big">{section.number}</span>
+          </>
+        )}
         {section.marginalNote && <h1>{section.marginalNote}</h1>}
       </header>
 
@@ -54,14 +62,14 @@ export default function ReadingView({
       <nav className="section-pager">
         {prevId ? (
           <button type="button" onClick={() => onJumpSection(prevId)}>
-            ← s.{statute.sections[prevId].number}
+            ← {pagerLabel(statute.sections[prevId])}
           </button>
         ) : (
           <span />
         )}
         {nextId ? (
           <button type="button" onClick={() => onJumpSection(nextId)}>
-            s.{statute.sections[nextId].number} →
+            {pagerLabel(statute.sections[nextId])} →
           </button>
         ) : (
           <span />
