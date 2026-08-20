@@ -121,8 +121,8 @@ export default function ImportView({ onImported, onOpenDocs }) {
         />
         <span className="import-dropzone-title">Upload a file</span>
         <span className="import-dropzone-hint">
-          A Justice Laws XML file, or an Ontario e-Laws JSON export — drag one
-          here or click to browse
+          A Justice Laws XML file, or an Ontario e-Laws JSON export. Drag one
+          here, or click to browse.
         </span>
       </label>
 

@@ -24,18 +24,46 @@ const GROUPS = [
 const ALL_DOCS = GROUPS.flatMap((g) => g.docs);
 for (const doc of ALL_DOCS) doc.outline = extractHeadings(doc.content);
 
-export default function DocsView() {
-  const [active, setActive] = useState("guide");
+export default function DocsView({ target }) {
+  const [active, setActive] = useState(target?.doc ?? "guide");
   const [activeHeading, setActiveHeading] = useState(null);
   const contentRef = useRef(null);
+  // A caller elsewhere in the app (e.g. the "See the Documentation tab" link
+  // in Add a statute) can ask to land on a specific doc and heading. When
+  // that also means switching docs, the heading doesn't exist in the DOM
+  // yet on this render, so it's stashed here for the [activeDoc] effect
+  // below to pick up once the new doc's content — and its heading ids —
+  // actually exist.
+  const pendingHeadingRef = useRef(target?.heading ?? null);
   const activeDoc = ALL_DOCS.find((d) => d.key === active);
+
+  useEffect(() => {
+    if (!target) return;
+    pendingHeadingRef.current = target.heading ?? null;
+    setActive(target.doc);
+    if (target.heading) {
+      const el = document.getElementById(target.heading);
+      if (el) {
+        el.scrollIntoView({ block: "start" });
+        setActiveHeading(target.heading);
+        pendingHeadingRef.current = null;
+      }
+    }
+  }, [target]);
 
   // Highlights whichever heading is currently at the top of the visible
   // content, so the outline tracks scroll position the way Netlify's or
   // Mintlify's docs do — without this, "on this page" nav is just a
   // one-way jump list with no sense of where you actually are.
   useEffect(() => {
-    setActiveHeading(activeDoc.outline[0]?.id ?? null);
+    const pending = pendingHeadingRef.current;
+    if (pending && activeDoc.outline.some((h) => h.id === pending)) {
+      pendingHeadingRef.current = null;
+      document.getElementById(pending)?.scrollIntoView({ block: "start" });
+      setActiveHeading(pending);
+    } else {
+      setActiveHeading(activeDoc.outline[0]?.id ?? null);
+    }
     const container = contentRef.current;
     if (!container || activeDoc.outline.length === 0) return;
 

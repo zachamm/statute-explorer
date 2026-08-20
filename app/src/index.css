@@ -128,7 +128,7 @@ ul {
 
 .statute-picker {
   appearance: none;
-  font-family: var(--mono);
+  font-family: var(--sans);
   font-size: 0.72rem;
   color: var(--panel-ink);
   background: #1e1a13;
@@ -262,7 +262,7 @@ ul {
 
 .tree-part-tag {
   color: var(--accent);
-  font-family: var(--mono);
+  font-family: var(--sans);
   font-size: 0.68rem;
   font-weight: 700;
   letter-spacing: 0.02em;
@@ -356,7 +356,7 @@ ul {
   font-size: 0.7rem;
   color: var(--ink-faint);
   margin-bottom: 1.5rem;
-  font-family: var(--mono);
+  font-family: var(--sans);
 }
 
 .breadcrumb > span {

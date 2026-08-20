@@ -33,6 +33,14 @@ function App() {
   const [hover, setHover] = useState({ termId: null, position: { x: 0, y: 0 } });
   const [mobilePanel, setMobilePanel] = useState(null); // null | "tree" | "graph" — narrow-viewport drawers
   const [searchOpen, setSearchOpen] = useState(false);
+  const [docsTarget, setDocsTarget] = useState(null);
+
+  // A fresh object every call (not just `{doc, heading}` reused) so DocsView's
+  // effect fires even when asked to jump to the same place twice in a row.
+  const openDocs = useCallback((doc = "guide", heading = null) => {
+    setDocsTarget({ doc, heading, at: Date.now() });
+    setView("docs");
+  }, []);
 
   useEffect(() => {
     fetchManifest()
@@ -182,12 +190,12 @@ function App() {
         )}
       </header>
 
-      {view === "docs" && <DocsView />}
+      {view === "docs" && <DocsView target={docsTarget} />}
 
       {view === "import" && (
         <ImportView
           onImported={handleImported}
-          onOpenDocs={() => setView("docs")}
+          onOpenDocs={() => openDocs("guide", "adding-a-new-statute")}
         />
       )}
 
