@@ -1,0 +1,18 @@
+[build]
+  # The functions import parser/lib directly, which needs cheerio and
+  # @xmldom/xmldom. netlify/functions/ has its own package.json for that
+  # (confirmed necessary by testing with `netlify dev` locally — the
+  # function-serving process doesn't walk up to parser/node_modules).
+  command = "npm --prefix parser ci && npm --prefix netlify/functions ci && npm --prefix app ci && npm --prefix app run build"
+  publish = "app/dist"
+
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+
+[dev]
+  command = "npm --prefix app run dev -- --port 5190 --strictPort"
+  targetPort = 5190
+  port = 8888
+  publish = "app/dist"
+  autoLaunch = false

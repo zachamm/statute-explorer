@@ -19,3 +19,6 @@ parser/output/
 
 # logs
 npm-debug.log*
+
+# Local Netlify folder
+.netlify

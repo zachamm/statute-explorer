@@ -1,34 +1,29 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import { fetchDoc } from "../lib/importApi";
+import guideMd from "../../../docs/GUIDE.md?raw";
+import readmeMd from "../../../README.md?raw";
+import schemaMd from "../../../docs/SCHEMA.md?raw";
 
 const GROUPS = [
   {
     label: "Guide",
-    docs: [{ key: "guide", label: "Using this app" }],
+    docs: [{ key: "guide", label: "Using this app", content: guideMd }],
   },
   {
     label: "For developers",
     docs: [
-      { key: "readme", label: "How it works" },
-      { key: "schema", label: "Data model" },
+      { key: "readme", label: "How it works", content: readmeMd },
+      { key: "schema", label: "Data model", content: schemaMd },
     ],
   },
 ];
 
+const ALL_DOCS = GROUPS.flatMap((g) => g.docs);
+
 export default function DocsView() {
   const [active, setActive] = useState("guide");
-  const [content, setContent] = useState(null);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    setContent(null);
-    setError(null);
-    fetchDoc(active)
-      .then(setContent)
-      .catch((err) => setError(err.message));
-  }, [active]);
+  const activeDoc = ALL_DOCS.find((d) => d.key === active);
 
   return (
     <div className="docs-view">
@@ -50,17 +45,9 @@ export default function DocsView() {
         ))}
       </nav>
       <article className="docs-content">
-        {error && (
-          <p className="docs-error">
-            Couldn't load this doc: {error}. This only works when the app
-            is running via <code>npm run dev</code> — the docs API is a
-            dev-server-only feature.
-          </p>
-        )}
-        {!error && !content && <p className="docs-loading">Loading…</p>}
-        {content && (
-          <ReactMarkdown remarkPlugins={[remarkGfm]}>{content}</ReactMarkdown>
-        )}
+        <ReactMarkdown remarkPlugins={[remarkGfm]}>
+          {activeDoc.content}
+        </ReactMarkdown>
       </article>
     </div>
   );

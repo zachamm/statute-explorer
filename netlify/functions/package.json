@@ -1,0 +1,9 @@
+{
+  "name": "statute-explorer-functions",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@xmldom/xmldom": "^0.9.6",
+    "cheerio": "^1.2.0"
+  }
+}

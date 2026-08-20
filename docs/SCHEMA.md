@@ -1,9 +1,9 @@
-# Data model — parsed statute JSON
+# Data model: parsed statute JSON
 
 Produced by `parser/parse.js` (federal) or `parser/parse-ontario.js`
-(Ontario) from each jurisdiction's official source — see the top-level
+(Ontario) from each jurisdiction's official source. See the top-level
 [README](../README.md) for what format each expects and how to run them. No
-runtime parsing happens in the browser — all of this is precomputed, and
+runtime parsing happens in the browser: all of this is precomputed, and
 both adapters emit the exact same shape below, which is the only thing the
 app (`app/src/`) actually knows about.
 
@@ -12,7 +12,7 @@ Every statute is written to `app/public/data/<slug>.json` (e.g. `e-4-5.json`,
 statute parsed so far (`{ slug, id, jurisdiction, title, citation,
 partCount, sectionCount }[]`) that the app fetches on load to populate the
 statute picker, grouped by `jurisdiction`. The app fetches whichever statute
-is selected at runtime — nothing is bundled into the JS build.
+is selected at runtime. Nothing is bundled into the JS build.
 
 ## Top level
 
@@ -37,7 +37,7 @@ user clicks a link (nav tree click, cross-ref jump, or definition jump).
 
 ## Hierarchy (Part → Division → Section)
 
-The source XML has no explicit `<Part>`/`<Division>` wrapper elements —
+The source XML has no explicit `<Part>`/`<Division>` wrapper elements:
 `Heading level="1"` and `Heading level="2"` are siblings of `Section` in a
 flat `Body`, and the hierarchy is implied by heading level until the next
 heading of equal-or-higher level. The parser reconstructs real nesting from
@@ -59,7 +59,7 @@ DivisionNode {
 }
 ```
 
-Some parts have no sub-headings at all — in that case a single synthetic
+Some parts have no sub-headings at all. In that case a single synthetic
 division (`id: "<partId>-main"`, `title: null`) holds all of that part's
 sections, so the tree component only ever has to render one shape
 (Part → Division → Section), never a special-cased two-level fallback.
@@ -70,7 +70,7 @@ sections, so the tree component only ever has to render one shape
 Section {
   id: string                    // "s5"
   number: string                 // "5" (kept as string: source has "3.1"-style numbers elsewhere in real statutes)
-  marginalNote: string | null    // "Definitions" — the bolded margin heading
+  marginalNote: string | null    // "Definitions": the bolded margin heading
   partId: string
   divisionId: string
   body: Block[]                  // ordered content, top-level Text/Subsection/Definition/Paragraph
@@ -90,7 +90,7 @@ One `Section.body` is an ordered array of blocks, each one of:
 { type: 'paragraph',   label: '(a)', runs: Run[], children: Block[] }
 { type: 'subparagraph',label: '(i)', runs: Run[] }
 { type: 'definition',  termId: string, runs: Run[], children: Block[] }
-{ type: 'continued',   runs: Run[] }   // "ContinuedSectionSubsection" / "ContinuedDefinition" / "ContinuedParagraph" — text that resumes after an embedded list
+{ type: 'continued',   runs: Run[] }   // "ContinuedSectionSubsection" / "ContinuedDefinition" / "ContinuedParagraph": text that resumes after an embedded list
 ```
 
 `children` holds nested blocks (e.g. a subsection's paragraphs, a
@@ -113,15 +113,15 @@ parse time, so the app never has to re-run regexes against rendered text.
 ```
 
 - `isAnchor: true` marks the specific occurrence where a term is first
-  defined (inside a `<Definition>` block) — the reading view can style that
+  defined (inside a `<Definition>` block). The reading view can style that
   occurrence differently (e.g. bold, no hover-preview needed since you're
   already looking at the definition).
-- `xref-internal.targets` is an array (not a single id) because citations
+- `xref-internal.targets` is an array, not a single id, because citations
   like "sections 52 and 53" or "sections 58 to 61" resolve to more than one
-  target — the graph and incoming/outgoing ref lists explode these, but the
+  target. The graph and incoming/outgoing ref lists explode these, but the
   rendered link stays a single clickable span.
 - External Act citations (`xref-external`) are rendered as plain
-  non-interactive emphasis, not links — this tool only knows the shape of
+  non-interactive emphasis, not links. This tool only knows the shape of
   the one statute it parsed, and CanLII deep-linking to an arbitrary
   external act/section is out of scope for v1.
 
@@ -132,7 +132,7 @@ Definition {
   id: termId                 // slug, e.g. "public-welfare-emergency"
   term: string                 // display text, e.g. "public welfare emergency"
   sectionId: sectionId          // where the anchor definition lives
-  scope: string                 // "this Act" | "this Part" | "this section" — taken from the lead-in text ("In this Act,")
+  scope: string                 // "this Act" | "this Part" | "this section": taken from the lead-in text ("In this Act,")
   previewRuns: Run[]             // the definition's own text (for the hover-preview popover)
 }
 ```
@@ -155,11 +155,11 @@ the graph component needing to scan every section on every render.
   tree to find "section 34" on every click would be O(n) and awkward to
   memoize correctly.
 - **Runs instead of strings + client-side regex**: statutory cross-refs
-  need to *not* match citations to a different Act's section (e.g.
+  need to *not* match citations to a different Act's section. For example,
   "subsection 2(1) of the Immigration and Refugee Protection Act" appears
-  in this exact statute — an internal-looking match that must NOT become a
-  local jump link). That disambiguation needs the surrounding DOM context
-  (is an `XRefExternal` element adjacent?) that only exists at XML-parse
+  in this exact statute: an internal-looking match that must NOT become a
+  local jump link. That disambiguation needs the surrounding DOM context
+  (is an `XRefExternal` element adjacent?), which only exists at XML-parse
   time, not in a flattened string.
 - **Recursive `Block.children` instead of a flat per-section list**:
   preserves genuine source nesting (paragraph → subparagraph) so indentation
