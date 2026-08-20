@@ -58,7 +58,7 @@ export default function ImportView({ onImported, onOpenDocs }) {
           Paste a link to the statute on its government source, or upload a
           file you already have. Not sure what's accepted?{" "}
           <button type="button" className="link-button" onClick={onOpenDocs}>
-            See the Docs tab
+            See the Documentation tab
           </button>{" "}
           for the URL formats and file types that work.
         </p>

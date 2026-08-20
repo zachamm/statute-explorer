@@ -18,7 +18,7 @@ const JURISDICTION_LABEL = { federal: "Federal", ontario: "Ontario" };
 const TABS = [
   { key: "reader", label: "Reader" },
   { key: "import", label: "Add a statute" },
-  { key: "docs", label: "Docs" },
+  { key: "docs", label: "Documentation" },
 ];
 
 function App() {

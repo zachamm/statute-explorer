@@ -70,7 +70,7 @@ export async function importFromUrl(url) {
   const detected = detectFromUrl(url);
   if (!detected) {
     throw new Error(
-      "That URL doesn't look like a laws-lois.justice.gc.ca or ontario.ca/laws statute page. See the Docs tab for the URL formats that work.",
+      "That URL doesn't look like a laws-lois.justice.gc.ca or ontario.ca/laws statute page. See the Documentation tab for the URL formats that work.",
     );
   }
   if (detected.jurisdiction === "federal") {
@@ -78,7 +78,7 @@ export async function importFromUrl(url) {
     const xmlText = await fetchText(xmlUrl);
     if (!xmlText.includes("<Statute")) {
       throw new Error(
-        `${xmlUrl} didn't return a Statute XML document — check the chapter code in the URL.`,
+        `${xmlUrl} didn't return a Statute XML document. Check the chapter code in the URL.`,
       );
     }
     return parseFederal(xmlText);
@@ -93,7 +93,7 @@ export async function importFromFileContent(content) {
   const kind = detectFromContent(content);
   if (!kind) {
     throw new Error(
-      "Couldn't recognize that file as federal Justice Laws XML or an Ontario e-Laws JSON export. See the Docs tab for what's expected.",
+      "Couldn't recognize that file as federal Justice Laws XML or an Ontario e-Laws JSON export. See the Documentation tab for what's expected.",
     );
   }
   return kind === "federal" ? parseFederal(content) : parseOntario(content);

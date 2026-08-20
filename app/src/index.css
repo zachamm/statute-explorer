@@ -179,8 +179,8 @@ ul {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: var(--mono);
-  font-size: 0.85rem;
+  font-family: var(--sans);
+  font-size: 0.9rem;
   color: var(--ink-dim);
   background: var(--paper);
 }
@@ -742,20 +742,21 @@ ul {
 }
 
 .docs-nav {
-  flex: 0 0 200px;
+  flex: 0 0 240px;
   background: var(--panel);
   padding: 1.5rem 0;
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1.35rem;
+  overflow-y: auto;
 }
 
 .docs-nav-group-label {
-  font-family: var(--mono);
-  font-size: 0.66rem;
-  font-weight: 600;
+  font-family: var(--sans);
+  font-size: 0.68rem;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.06em;
   color: var(--panel-ink-dim);
   padding: 0 1.5rem 0.5rem;
 }
@@ -768,7 +769,7 @@ ul {
   font-size: 0.82rem;
   font-weight: 600;
   color: var(--panel-ink-dim);
-  padding: 0.55rem 1.5rem;
+  padding: 0.5rem 1.5rem;
   border-left: 3px solid transparent;
 }
 
@@ -781,31 +782,56 @@ ul {
   border-left-color: var(--accent);
 }
 
+/* per-page "on this page" outline, nested under the active page's button */
+.docs-outline {
+  margin: 0.1rem 0 0.35rem;
+}
+
+.docs-outline li {
+  list-style: none;
+}
+
+.docs-outline button {
+  font-size: 0.74rem;
+  font-weight: 500;
+  color: var(--panel-ink-dim);
+  padding: 0.3rem 1.5rem 0.3rem 2.15rem;
+  opacity: 0.8;
+}
+
+.docs-outline li.depth-3 button {
+  padding-left: 2.85rem;
+  font-size: 0.71rem;
+}
+
+.docs-outline button:hover {
+  color: var(--panel-ink);
+  opacity: 1;
+}
+
+.docs-outline button.active {
+  color: var(--accent);
+  border-left-color: var(--accent);
+  font-weight: 600;
+  opacity: 1;
+}
+
 .docs-content {
   flex: 1 1 auto;
   overflow-y: auto;
   background: var(--paper-dim);
-  padding: 2.5rem clamp(1.5rem, 5vw, 4rem) 6rem;
+  padding: 2.5rem clamp(1.5rem, 5vw, 4rem) 8rem;
 }
 
-.docs-loading,
-.docs-error {
-  font-family: var(--mono);
-  font-size: 0.82rem;
-  color: var(--ink-dim);
-  max-width: 700px;
-  margin: 0 auto;
-}
-
-.docs-content > div {
-  max-width: 760px;
+.docs-card {
+  max-width: 720px;
   margin: 0 auto;
   background: var(--paper);
   border: 1px solid var(--rule);
   padding: clamp(1.5rem, 4vw, 2.75rem);
   font-family: var(--sans);
   color: var(--ink);
-  line-height: 1.65;
+  line-height: 1.68;
 }
 
 .docs-content h1,
@@ -815,7 +841,8 @@ ul {
   font-weight: 700;
   letter-spacing: -0.01em;
   color: var(--ink);
-  margin: 1.75rem 0 0.75rem;
+  margin: 2rem 0 0.75rem;
+  scroll-margin-top: 1.5rem;
 }
 
 .docs-content h1 {
@@ -826,11 +853,19 @@ ul {
 }
 
 .docs-content h2 {
-  font-size: 1.15rem;
+  font-size: 1.1rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--rule);
+}
+
+.docs-content h2:first-of-type {
+  border-top: none;
+  padding-top: 0;
 }
 
 .docs-content h3 {
-  font-size: 0.98rem;
+  font-size: 0.95rem;
+  margin-top: 1.5rem;
 }
 
 .docs-content p,
@@ -1045,8 +1080,9 @@ ul {
   align-items: center;
   gap: 0.75rem;
   color: var(--ink-faint);
-  font-family: var(--mono);
-  font-size: 0.72rem;
+  font-family: var(--sans);
+  font-weight: 600;
+  font-size: 0.7rem;
   text-transform: uppercase;
   letter-spacing: 0.06em;
 }
@@ -1097,7 +1133,7 @@ ul {
 }
 
 .import-status-loading {
-  font-family: var(--mono);
+  font-family: var(--sans);
   color: var(--ink-dim);
   background: var(--paper);
 }
@@ -1286,6 +1322,13 @@ ul {
 
   .docs-nav button.active {
     border-bottom-color: var(--accent);
+  }
+
+  /* the "on this page" outline needs vertical room the horizontal-scroll
+     mobile nav doesn't have — hidden here, content is still just a normal
+     scroll away without it */
+  .docs-outline {
+    display: none;
   }
 
   .docs-content {
