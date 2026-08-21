@@ -31,12 +31,12 @@ government source (XML or HTML)
         └── cached raw source under parser/source/            app's header
 ```
 
-The output JSON shape (Part → Division → Section → nested Block/Run tree,
-cross-reference index, defined-term index) is documented in
-[`docs/SCHEMA.md`](docs/SCHEMA.md). It's identical regardless of which
-jurisdiction a statute came from. The app (`app/src/`) only ever reads that
-shape; it has no jurisdiction-specific code at all. All jurisdiction-specific
-knowledge lives in the parser adapters.
+[`docs/SCHEMA.md`](docs/SCHEMA.md) documents the output JSON shape (Part →
+Division → Section → nested Block/Run tree, cross-reference index,
+defined-term index). It's identical regardless of which jurisdiction a
+statute came from. The app (`app/src/`) only ever reads that shape; it has
+no jurisdiction-specific code at all. All jurisdiction-specific knowledge
+lives in the parser adapters.
 
 ## Running it
 
@@ -82,12 +82,12 @@ well-formed schema: `Statute > Body > (Heading | Section)`, with
 terms marked with `<DefinedTermEn>`/`<DefinedTermFr>`, and external-Act
 citations marked with `<XRefExternal>`. Every federal Act uses this exact
 schema, so `parse.js` needed zero Act-specific code: the chapter code is the
-only input. It's been verified end-to-end against three structurally
-different Acts ranging from 64 to 1,603 sections (see `docs/SCHEMA.md` for
-the full element mapping).
+only input. Three structurally different Acts, ranging from 64 to 1,603
+sections, exercise it end-to-end (see `docs/SCHEMA.md` for the full
+element mapping).
 
-If the XML isn't already cached under `parser/source/`, it's downloaded
-automatically and cached there for next time.
+If the XML isn't already cached under `parser/source/`, `parse.js`
+downloads it automatically and caches it there for next time.
 
 ### Ontario Acts (ontario.ca/laws)
 
@@ -104,10 +104,10 @@ federally. You have to find the URL.
 **Format required:** unlike the federal source, Ontario's e-Laws doesn't
 publish real XML. `parse-ontario.js` fetches a JSON envelope from
 `ontario.ca/laws/api/v2/legislation/en/doc-search/statute/<alias>` whose
-`content` field is a large blob of **Word-export HTML**. Structure is
-carried by CSS class names on `<p>` elements (`class="section"`,
-`class="subsection"`, `class="definition"`, `class="partnum"`, and so on)
-rather than by distinct tags, and the HTML itself isn't well-formed. Word's
+`content` field is a large blob of **Word-export HTML**. CSS class names
+on `<p>` elements (`class="section"`, `class="subsection"`,
+`class="definition"`, `class="partnum"`, and so on) carry structure
+instead of distinct tags, and the HTML itself isn't well-formed. Word's
 converter leaves unclosed, mis-nested `<span>` tags: a citation note gets
 wrapped in three separately-nested `<span class="citation">` tags, one per
 word. `parse-ontario.js` uses `cheerio` (an HTML5-tolerant parser) to
@@ -117,8 +117,9 @@ real downloaded Act. Ontario doesn't document the format anywhere, which
 makes it inherently more heuristic than the federal adapter. See **Known
 limitations** below.
 
-If the JSON isn't already cached under `parser/source/`, it's downloaded
-automatically and cached there (as `on-<alias>.json`) for next time.
+If the JSON isn't already cached under `parser/source/`, `parse-ontario.js`
+downloads it automatically and caches it there (as `on-<alias>.json`) for
+next time.
 
 ### Adding a third jurisdiction
 
