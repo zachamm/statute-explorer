@@ -10,6 +10,15 @@ It currently works out of the box for **any federal statute**
 (laws-lois.justice.gc.ca) and **any Ontario statute** (ontario.ca/laws). See
 [Importing a statute](#importing-a-statute) below for how to add one.
 
+## Statute Map
+
+[`statute-map/`](statute-map/) is a separate, newer app that combines this
+explorer's reader with a section-map graph. It searches every federal Act and
+regulation and the main Ontario Acts, and pulls statute text live from the
+government sources instead of bundling it. See
+[its README](statute-map/README.md) to run it. Everything else on this page
+describes the explorer in `app/`.
+
 ## How it works, end to end
 
 There's no backend and no runtime parsing. A Node script (`parser/`) fetches
